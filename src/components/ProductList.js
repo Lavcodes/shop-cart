@@ -3,7 +3,7 @@ import React from 'react';
 import ItemCard from './ItemCard';
 
 const ProductList = (props) =>{
-    console.log(props.products);
+   
     const List = props.products.map((product)=>{
         return (
             <ItemCard id = {product.id} 
@@ -11,6 +11,7 @@ const ProductList = (props) =>{
             description = {product.description} 
             image = {product.image}
             price = {product.price}
+            onAddClick = {props.onAddClick}
             >
             </ItemCard>
         );
