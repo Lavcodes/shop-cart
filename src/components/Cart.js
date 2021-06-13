@@ -3,15 +3,18 @@ import React from 'react';
 import CartItem from './CartItem';
 
 const Cart = (props) =>{
-    console.log(props.cartProds);
+    //console.log(props.cartProds);
     const List = props.cartProds.map((product)=>{
+        if(product.quantity!==0)
         return (
            <CartItem
-             id = {product[0].id}
-             title = {product[0].title}
-             image = {product[0].image}
-             price = {product[0].price}
+             id = {product.id}
+             title = {product.title}
+             image = {product.image}
+             price = {product.price}
+             quantity = {product.quantity}
              onRemoveClick = {props.onRemoveClick}
+             onAddClick = {props.onAddClick}
            ></CartItem>
         );
         

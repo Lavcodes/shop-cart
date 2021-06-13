@@ -20,7 +20,8 @@ class SearchBar extends React.Component{
                         <input type = "text"
                                value = {this.state.value}
                                onChange = {(e)=>{
-                                   this.setState({value: e.target.value })
+                                   this.setState({value: e.target.value });
+                                   this.props.onSubmit(this.state.value);
                                }}
                         ></input>
                     </div>

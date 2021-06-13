@@ -15,35 +15,62 @@ class App extends React.Component {
         cart : []
     };
     
-
+    componentDidMount = async () =>{
+        await this.onSearchSubmit('');
+        console.log(this.state.products);
+        this.initCart();
+    }
+    
+    initCart = ()=>{
+       
+        const new_cart = this.state.products.map((product)=>{
+            console.log("hey");
+            product['quantity'] = 0;
+            return product;
+        });
+        this.setState({cart : new_cart});
+    }
     //App will pass this as prop to SearchBar
     // Fetching and filtering products 
     // send to item list as props
 
-     onSearchSubmit = async (prodCategory) => {
+     onSearchSubmit = async (prodString) => {
         
         const {data} = await axios.get('https://fakestoreapi.com/products', {});
-        if(prodCategory==='') this.setState({products : data});
+        if(prodString==='') this.setState({products : data});
         else{
             const searchData = data.filter(product =>{
-                return product.category===prodCategory
+               
+                const check = product.title.toLowerCase();
+              
+                prodString = prodString.toLowerCase();
+                return check.includes(prodString);
             });
             this.setState({products : searchData});
         }
     }
 
     onAddClick = (id) =>{
-        const prod = this.state.products.filter(product =>{
-            return product.id === id
+        console.log('im adding');
+        const new_cart = this.state.cart.map(product =>{
+            if(product.id === id){
+                product.quantity += 1;
+            }
+            return product;
         });
-        const new_cart = [...this.state.cart, prod];
+        
         this.setState({ cart : new_cart });
     }
 
     onRemoveClick = (id) => {
-        const new_cart = this.state.cart.filter((prod)=>{
-            return prod[0].id!==id
+        console.log('im removing')
+        const new_cart = this.state.cart.map(product =>{
+            if(product.id === id){
+                product.quantity -= 1;
+            }
+            return product;
         });
+      
         this.setState({ cart : new_cart});
     }
 
@@ -59,7 +86,7 @@ class App extends React.Component {
                      <ProductList products = {this.state.products} onAddClick = {this.onAddClick}></ProductList>
                      </div>
                      <div class="column">
-                     <Cart cartProds = {this.state.cart} onRemoveClick = {this.onRemoveClick}></Cart>
+                     <Cart cartProds = {this.state.cart} onRemoveClick = {this.onRemoveClick} onAddClick={this.onAddClick}></Cart>
              
                       </div>
                       </div>
