@@ -1,17 +1,22 @@
 import React from 'react';
+import { connect } from 'react-redux';
+
+import { DisplayProducts } from '../actions';
 
 
-class SearchBar extends React.Component{
+export class SearchBar extends React.Component{
+   
     state = {
         value : ''
     };
 
     onFormSubmit = (e) => {
         e.preventDefault();
-        this.props.onSubmit(this.state.value);
+        this.props.DisplayProducts(this.state.value);
     }
    
     render(){
+        console.log(this.props);
         return (
             <div className = "ui segment">
                 <form onSubmit={this.onFormSubmit} className = "ui form">
@@ -21,7 +26,7 @@ class SearchBar extends React.Component{
                                value = {this.state.value}
                                onChange = {(e)=>{
                                    this.setState({value: e.target.value });
-                                   this.props.onSubmit(this.state.value);
+                                   this.props.DisplayProducts(this.state.value);
                                }}
                         ></input>
                     </div>
@@ -33,4 +38,8 @@ class SearchBar extends React.Component{
     }
 }
 
-export default SearchBar;
+
+
+export default connect(null,
+    { DisplayProducts },
+    )(SearchBar);

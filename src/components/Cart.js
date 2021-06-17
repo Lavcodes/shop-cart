@@ -1,9 +1,11 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 import CartItem from './CartItem';
+import { AddToCart, RemoveFromCart } from '../actions';
 
 const Cart = (props) =>{
-    //console.log(props.cartProds);
+    
     const List = props.cartProds.map((product)=>{
         if(product.quantity!==0)
         return (
@@ -13,8 +15,8 @@ const Cart = (props) =>{
              image = {product.image}
              price = {product.price}
              quantity = {product.quantity}
-             onRemoveClick = {props.onRemoveClick}
-             onAddClick = {props.onAddClick}
+             onRemoveClick = {props.RemoveFromCart}
+             onAddClick = {props.AddToCart}
            ></CartItem>
         );
         
@@ -26,4 +28,13 @@ const Cart = (props) =>{
     )
 }
 
-export default Cart;
+const mapStateToProps = (state) => {
+    console.log(state);
+    return{
+    cart : state.cart
+    }
+}
+export default connect(mapStateToProps, {
+    AddToCart,
+    RemoveFromCart
+})(Cart);

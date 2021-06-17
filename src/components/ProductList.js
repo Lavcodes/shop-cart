@@ -1,8 +1,10 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 import ItemCard from './ItemCard';
+import { AddToCart } from '../actions';
 
-const ProductList = (props) =>{
+export const ProductList = (props) =>{
    
     const List = props.products.map((product)=>{
         return (
@@ -11,7 +13,8 @@ const ProductList = (props) =>{
             description = {product.description} 
             image = {product.image}
             price = {product.price}
-            onAddClick = {props.onAddClick}
+            onAddClick = {props.AddToCart}
+            cart = {props.cart}
             >
             </ItemCard>
         );
@@ -22,4 +25,14 @@ const ProductList = (props) =>{
     );
 }
 
-export default ProductList;
+const mapStateToProps = (state) =>{
+    return {
+        products : state.products,
+        cart : state.cart
+    }
+}
+
+export default connect(mapStateToProps, {
+    AddToCart
+})(ProductList);
+  

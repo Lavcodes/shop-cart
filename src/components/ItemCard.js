@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ItemCard = ({id, title, description, image, price, onAddClick}) => {
+const ItemCard = ({id, title, description, image, price, onAddClick, cart}) => {
 
     const onAdding = ()=>{
         onAddClick(id);
